@@ -64,7 +64,7 @@ function displayCalculator() {
 }
 
 //Processing variables
-let displayNumber = 0;
+let displayNumber = "0";
 let operand1 = null;
 let operand2 = null;
 let operator = null;
@@ -88,6 +88,9 @@ const numberButtons = document.querySelectorAll(".num-button");
 //Adding event handlers
 acButton.addEventListener("click", () => AC());
 eraseButton.addEventListener("click", () => erase());
+numberButtons.forEach((button) => {
+    button.addEventListener("click", () => fillNumber(button.innerHTML));
+});
 
 
 //Initialize
