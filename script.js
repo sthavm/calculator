@@ -54,14 +54,16 @@ function erase() {
     displayCalculator();
 }
 function fillNumber(number) {
-    if (opSwitched) {
-        displayNumber = number.toString();
-        opSwitched = false;
-    } else {
-        if (displayNumber === "0" || displayNumber === "Not a number"){
+    if (displayNumber.length < 13) {
+        if (opSwitched) {
             displayNumber = number.toString();
+            opSwitched = false;
         } else {
-            displayNumber = displayNumber.concat(number);
+            if (displayNumber === "0" || displayNumber === "Not a number"){
+                displayNumber = number.toString();
+            } else {
+                displayNumber = displayNumber.concat(number);
+            }
         }
     }
     displayCalculator();
@@ -95,40 +97,48 @@ function switchOp() {
     opSwitched = true;
 }
 function sqrt() {
-    if ((displayNumber === "Not a number") || (Number(displayNumber) < 0)) {
-        displayNumber = "Not a number";
-    } else {
-        let sqrtResult = operate("sqrt", Number(displayNumber));
-        displayNumber = sqrtResult;
+    if (opSwitched === false) {
+        if ((displayNumber === "Not a number") || (Number(displayNumber) < 0)) {
+            displayNumber = "Not a number";
+        } else {
+            let sqrtResult = operate("sqrt", Number(displayNumber));
+            displayNumber = sqrtResult;
+        }
+        displayCalculator();
     }
-    displayCalculator();
 }
 function square() {
-    if (displayNumber === "Not a number") {
-        displayNumber = "Not a number";
-    } else {
-        let squareResult = operate("square", Number(displayNumber));
-        displayNumber = squareResult;
+    if (opSwitched === false) {
+        if (displayNumber === "Not a number") {
+            displayNumber = "Not a number";
+        } else {
+            let squareResult = operate("square", Number(displayNumber));
+            displayNumber = squareResult;
+        }
+        displayCalculator();
     }
-    displayCalculator();
 }
 function percentage() {
-    if (displayNumber === "Not a number") {
-        displayNumber = "Not a number";
-    } else {
-        let percentResult = operate("percent", Number(displayNumber));
-        displayNumber = percentResult;
+    if (opSwitched === false) {
+        if (displayNumber === "Not a number") {
+            displayNumber = "Not a number";
+        } else {
+            let percentResult = operate("percent", Number(displayNumber));
+            displayNumber = percentResult;
+        }
+        displayCalculator();
     }
-    displayCalculator();
 }
 function mult100() {
-    if (displayNumber === "Not a number") {
-        displayNumber = "Not a number";
-    } else {
-        let mult100Result = operate("mult100", Number(displayNumber));
-        displayNumber = mult100Result;
+    if (opSwitched === false) {
+        if (displayNumber === "Not a number") {
+            displayNumber = "Not a number";
+        } else {
+            let mult100Result = operate("mult100", Number(displayNumber));
+            displayNumber = mult100Result;
+        }
+        displayCalculator();
     }
-    displayCalculator();
 }
 function dealWithOperands(pressedOperator) {
     switch (currentOp) {
@@ -172,7 +182,10 @@ function evaluate() {
     displayCalculator();
 }
 function displayCalculator() {
-    calcDisplay.value = displayNumber;
+    if (displayNumber.toString().length > 13) {
+        displayNumber = displayNumber.toString().slice(0, 14);
+    }
+    calcDisplay.value = displayNumber.toString();
 }
 
 //Processing variables
@@ -216,8 +229,9 @@ addButton.addEventListener("click", () => addition());
 squareButton.addEventListener("click", () => square());
 percentButton.addEventListener("click", () => percentage());
 mult100Button.addEventListener("click", () => mult100());
-
 equalsButton.addEventListener("click", () => evaluate());
+
+
 
 //Initialize
 displayCalculator();
